@@ -1,9 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox, Label, Button, Entry, ttk
 
-# Holster Order Management System (HOMS)
+# Holster Order Management System 
 # This application allows users to place holster orders, view order details, and manage order statuses.
-# It is built using Python's Tkinter for GUI-based interaction.
 
 class HolsterOrderApp:
     def __init__(self, root):
