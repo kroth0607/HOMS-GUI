@@ -10,7 +10,7 @@ class HolsterOrderApp:
         # Store orders in a list
         self.orders = []
 
-        # Title Label with better styling
+        # Title Label
         self.title_label = Label(root, text="Holster Order Management System", 
                                font=("Arial", 14, "bold"), bg="#2c3e50", fg="white",
                                pady=10, width=40)
@@ -88,7 +88,7 @@ class HolsterOrderApp:
             messagebox.showerror("Input Error", "All fields are required!")
             return
         
-        # Create order dictionary
+        # Create order 
         order = {
             "name": name,
             "email": email,
