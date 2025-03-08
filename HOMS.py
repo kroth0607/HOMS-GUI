@@ -2,14 +2,48 @@
 # A GUI application for managing custom holster orders using tkinter
 # Allows users to place new orders and administrators to view/manage existing orders
 
+from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import messagebox, Label, Button, Entry, ttk
 
-class HolsterOrderApp:
-    """
+"""
     Main application class for the Holster Order Management System
     Handles the creation of the main window and manages all order operations
     """
+
+class HolsterOrderApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Holster Order Management System (HOMS)")
+        self.root.geometry("500x400")
+        
+        self.orders = []
+
+        # Create main title label
+        self.title_label = Label(root, text="Holster Order Management System", 
+                               font=("Arial", 14, "bold"), bg="#2c3e50", fg="white",
+                               pady=10, width=40)
+        self.title_label.pack(pady=20)
+
+        # Add image
+        try:
+            
+            image = Image.open("OWBHolster.png")
+            # Resize image if needed (adjust dimensions as needed)
+            image = image.resize((200, 150), Image.Resampling.LANCZOS)
+            photo = ImageTk.PhotoImage(image)
+            
+            # Create and pack image label
+            image_label = Label(root, image=photo)
+            image_label.image = photo  
+            image_label.pack(pady=10)
+        except Exception as e:
+            print(f"Error loading image: {e}")
+
+        # Create frame to organize buttons
+        button_frame = tk.Frame(root)
+        button_frame.pack(expand=True)
+    
     def submit_order(self, name, email, holster_type, color, window):
         """
         Processes the order submission
@@ -25,7 +59,7 @@ class HolsterOrderApp:
             messagebox.showerror("Input Error", "All fields are required!")
             return
         
-        # Create new order dictionary with customer and product details
+        # Order dictionary with customer and product details
         order = {
             "name": name,
             "email": email,
@@ -34,7 +68,7 @@ class HolsterOrderApp:
             "status": "Pending"  # Initial status for new orders
         }
         
-        self.orders.append(order)  # Add order to master list
+        self.orders.append(order)  # Order to master list
         messagebox.showinfo("Success", "Order placed successfully!")
         window.destroy()  # Close order form window
     def __init__(self, root):
@@ -44,7 +78,7 @@ class HolsterOrderApp:
         
         self.orders = []  # List to store all order dictionaries
 
-        # Create main title label with custom styling
+        # Main title label with custom styling
         self.title_label = Label(root, text="Holster Order Management System", 
                                font=("Arial", 14, "bold"), bg="#2c3e50", fg="white",
                                pady=10, width=40)
@@ -54,10 +88,10 @@ class HolsterOrderApp:
         button_frame = tk.Frame(root)
         button_frame.pack(expand=True)
 
-        # Define common button styling
+        # Button styling
         button_style = {"font": ("Arial", 11), "width": 20, "pady": 5}
         
-        # Create main navigation buttons
+        # Main navigation buttons
         self.order_button = Button(button_frame, text="Place New Order", 
                                  command=self.open_order_form, bg="#3498db", fg="black",
                                  **button_style)
@@ -82,7 +116,7 @@ class HolsterOrderApp:
         order_window.geometry("400x500")
         order_window.configure(bg="#f0f0f0")
 
-        # Create frame to contain form elements
+        # Frame to contain form elements
         form_frame = tk.Frame(order_window, bg="#f0f0f0", pady=20)
         form_frame.pack(expand=True)
 
@@ -205,6 +239,6 @@ class HolsterOrderApp:
 
 # Application entry point
 if __name__ == "__main__":
-    root = tk.Tk()  # Create main window
+    root = tk.Tk()  # Main window
     app = HolsterOrderApp(root)  # Initialize application
     root.mainloop()  # Start event loop
