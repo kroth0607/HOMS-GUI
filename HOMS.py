@@ -10,6 +10,33 @@ class HolsterOrderApp:
     Main application class for the Holster Order Management System
     Handles the creation of the main window and manages all order operations
     """
+    def submit_order(self, name, email, holster_type, color, window):
+        """
+        Processes the order submission
+        Args:
+            name (str): Customer's name
+            email (str): Customer's email
+            holster_type (str): Selected holster type
+            color (str): Selected color
+            window (Toplevel): Reference to order form window
+        """
+        # Validate that all fields are filled
+        if not all([name, email, holster_type, color]):
+            messagebox.showerror("Input Error", "All fields are required!")
+            return
+        
+        # Create new order dictionary with customer and product details
+        order = {
+            "name": name,
+            "email": email,
+            "holster_type": holster_type,
+            "color": color,
+            "status": "Pending"  # Initial status for new orders
+        }
+        
+        self.orders.append(order)  # Add order to master list
+        messagebox.showinfo("Success", "Order placed successfully!")
+        window.destroy()  # Close order form window
     def __init__(self, root):
         self.root = root  # Main window instance
         self.root.title("Holster Order Management System (HOMS)")
@@ -65,24 +92,24 @@ class HolsterOrderApp:
         
         # Customer name input field
         Label(form_frame, text="Name:", bg="#f0f0f0").pack()
-        name_entry = Entry(form_frame, width=30)  # Text field for customer name
+        name_entry = Entry(form_frame, width=30)  
         name_entry.pack(pady=5)
 
         # Customer email input field
         Label(form_frame, text="Email:", bg="#f0f0f0").pack()
-        email_entry = Entry(form_frame, width=30)  # Text field for customer email
+        email_entry = Entry(form_frame, width=30)  
         email_entry.pack(pady=5)
 
         # Holster type dropdown selection
         Label(form_frame, text="Holster Type:", bg="#f0f0f0").pack()
         holster_type = ttk.Combobox(form_frame, values=["IWB", "OWB", "Appendix", "Duty"],
-                                   width=27)  # Dropdown for holster types
+                                   width=27)  
         holster_type.pack(pady=5)
 
         # Color dropdown selection
         Label(form_frame, text="Color:", bg="#f0f0f0").pack()
         color = ttk.Combobox(form_frame, values=["Black", "Brown", "FDE", "OD Green"],
-                            width=27)  # Dropdown for color options
+                            width=27)  
         color.pack(pady=5)
 
         # Submit button with lambda function to pass form values
@@ -92,10 +119,8 @@ class HolsterOrderApp:
                                                             holster_type.get(),
                                                             color.get(),
                                                             order_window),
-                             bg="#3498db", fg="white", width=20)
+                             bg="#3498db", fg="red", width=20)  
         submit_button.pack(pady=20)
-
-    def submit_order(self, name, email, holster_type, color, window):
         """
         Processes the order submission
         Args:
@@ -152,7 +177,7 @@ class HolsterOrderApp:
 
         # Add refresh button to update order list
         refresh_btn = Button(admin_window, text="Refresh", command=lambda: self.refresh_orders(tree),
-                           bg="#2ecc71", fg="white", width=15)
+                           bg="#2ecc71", fg="red", width=15)
         refresh_btn.pack(pady=10)
 
     def refresh_orders(self, tree):
